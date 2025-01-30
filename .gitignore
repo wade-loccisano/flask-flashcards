@@ -1,0 +1,24 @@
+.idea/
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+dist/
+
+# Flask stuff:
+instance/
+.webassets-cache
+.flaskenv
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+/uv.lock
+/package-lock.json
+/node_modules/

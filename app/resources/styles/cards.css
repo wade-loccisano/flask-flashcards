@@ -1,0 +1,203 @@
+@import './global.css';
+/* @import './index.css'; */
+
+.cards-title-bar {
+    min-width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 3em;
+}
+
+.card-name {
+    font-size: x-large;
+}
+
+.preview-section {
+    text-align: center;
+}
+
+.buttons-group{
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+@media (min-width: 1281px) {
+    .card-list-item {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        padding: 1rem;
+        border-top: 1px solid #6c757d;
+    }
+
+    .card-list-item-info {
+        display: flex;
+        width: 100%;
+        justify-content: space-evenly;
+        gap: 1rem;
+    }
+
+    .preview-section {
+        display: flex;
+        align-items: center;
+        box-sizing: border-box;
+        gap: 1rem;
+    }
+
+    .list-item-label {
+        display: flex;
+        align-items: center;
+    }
+}
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+    .card-list-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding: 1rem;
+        border-top: 1px solid #6c757d;
+    }
+
+    .card-list-item-info {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .preview-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 1;
+        box-sizing: border-box;
+    }
+
+    .list-item-label {
+        display: flex;
+        align-items: center;
+        
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .card-list-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding: 1rem;
+        border-top: 1px solid #6c757d;
+    }
+
+    .card-list-item-info {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .preview-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 1;
+        box-sizing: border-box;
+    }
+
+    .list-item-label {
+        display: flex;
+        align-items: center;
+        
+    }
+}
+
+@media (min-width: 320px) and (max-width: 767px) {
+    .card-list-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding: 1rem;
+        border-top: 1px solid #6c757d;
+    }
+
+    .card-list-item-info {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .preview-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 1;
+        box-sizing: border-box;
+    }
+
+    .list-item-label {
+        display: flex;
+        align-items: center;
+        
+    }
+}
+
+.cards-list {
+    padding-left: 0;
+}
+
+.card-list-item:last-child {
+    border-bottom: 1px solid #6c757d;
+}
+
+.card-preview {
+    border: 1px solid black;
+    padding: 6px;
+    width: 300px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: clip;
+    background-color: cornsilk;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.hidden {
+    display: none;
+}
+
+.modal-container {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+}
+
+.modal-input {
+    margin-bottom: 2rem;
+    width: 300px;
+    height: 200px;
+    text-align: center;
+    background-color: cornsilk;
+}

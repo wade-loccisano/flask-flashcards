@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='/study.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="study-title-bar">
+    <div>
+        <h1 class="title">Studying Deck: {{ deck.name }}</h1>
+    </div>
+    <div>
+        <a href="/decks" class="btn btn-secondary">
+            Back to Decks
+        </a>
+    </div>
+</div>
+<div class="study-content">
+    <div class="flashcard">
+        <div id="flashcard-front">
+        </div>
+    </div>
+    <div>
+        <button class="btn btn-primary" onclick="showAnswer()">
+            Reveal Answer
+        </button>
+    </div>
+    <div class="flashcard">
+        <div id="flashcard-back">
+        </div>
+    </div>
+    <div class="study-button-group">
+        <!-- <button class="btn btn-secondary">
+            Previous
+        </button> -->
+        <button class="btn btn-info" onclick="randomCard()">
+            Random
+        </button>
+        <button class="btn btn-danger" onclick="updateCard()">
+            Repeat
+        </button>
+        <button class="btn btn-secondary" onclick="nextCard()">
+            Next
+        </button>
+    </div>
+</div>
+
+<script>
+    let cards = JSON.parse('{{ deck.cards | tojson }}');
+    let currentIndex = 0;
+
+
+    function updateCard() {
+        document.getElementById("flashcard-front").textContent = cards[currentIndex].front;
+        document.getElementById("flashcard-back").textContent = "";
+    }
+
+    function randomCard() {
+        currentIndex = Math.floor(Math.random() * cards.length);
+        updateCard();
+    }
+
+    function nextCard() {
+        currentIndex = (currentIndex + 1) % cards.length;
+        updateCard();
+    }
+
+    function showAnswer() {
+        document.getElementById("flashcard-back").textContent = cards[currentIndex].back;
+    }
+
+    window.onload = updateCard;
+</script>
+{% endblock %}

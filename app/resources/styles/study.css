@@ -1,0 +1,40 @@
+@import './global.css';
+
+.study-title-bar {
+    min-width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 3em;
+}
+
+.study-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2em;
+}
+
+.hidden {
+    display: none;
+}
+
+.flashcard {
+    /* min-width: 22em;
+    min-height: 11em; */
+    min-width: 12em;
+    min-height: 6em;
+    border: 1px solid black;
+    border-radius: 5%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    background-color: cornsilk;
+    font-size: 48px;
+}
+
+.study-button-group {
+    display: flex;
+    gap: 3em;
+}

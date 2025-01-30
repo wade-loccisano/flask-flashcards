@@ -1,0 +1,75 @@
+@import './global.css';
+/* @import './index.css'; */
+
+.decks-title-bar{
+    min-width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 3em;
+}
+
+.deck-name {
+    font-size: x-large;
+}
+
+.deck-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.deck-list-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 1rem;
+    border-top: 1px solid #6c757d;
+}
+
+@media (max-width: 596px) {
+    .deck-list-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+.deck-list-item:last-child {
+    border-bottom: 1px solid #6c757d;
+}
+
+.button {
+    margin: .25rem;
+    min-width: 75px;
+    padding: .75rem;
+    border-radius: 30%;
+    cursor: pointer;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.hidden {
+    display: none;
+}
+
+.modal-container {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+}

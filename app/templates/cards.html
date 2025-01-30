@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='/cards.css') }}">
+{% endblock %}
+
+{% block content %}
+<div>
+<div class="cards-title-bar">
+    <div>
+        <h1 class="title">Card List for Deck: {{ deck.name }}</h1>
+    </div>
+    <div>
+        <a href="/decks" class="btn btn-secondary">
+            Back to Decks
+        </a>
+        <button 
+            type="button"
+            class="btn btn-primary"
+            data-bs-toggle="modal" 
+            data-bs-target="#newCardModal"
+            data-deck-id="{{ deck.id }}"
+        >
+            Add Cards
+        </button>
+    </div>
+</div>
+<ul class="cards-list">
+    {% for card in deck.cards %}
+        <li class="card-list-item">
+            <div class="card-list-item-info">
+                <div class="preview-section">
+                    <div class="list-item-label">
+                        <p>{{ loop.index }} -</p>
+                        <p> Front:</p>
+                    </div>
+                    <div>
+                        <p class="card-preview">{{ card.front }}</p>
+                    </div>
+                </div>
+                <div class="preview-section">
+                    <div class="list-item-label">
+                        <p>{{ loop.index }} -</p>
+                        <p> Back:</p>
+                    </div>
+                    <div>
+                        <p class="card-preview">{{ card.back }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="buttons-group">
+                <button 
+                    type="button"
+                    class="btn btn-info"
+                    data-bs-toggle="modal" 
+                    data-bs-target="#editCardModal"
+                    data-card-id="{{ card.id }}" 
+                    data-card-front="{{ card.front }}"
+                    data-card-back="{{ card.back }}"
+                >
+                    Edit
+                </button>
+                <button 
+                    type="button"
+                    class="btn btn-danger"
+                    data-bs-toggle="modal" 
+                    data-bs-target="#deleteCardModal"
+                    data-deck-id="{{ deck.id }}"
+                    data-card-id="{{ card.id }}" 
+                    data-card-front="{{ card.front }}"
+                    data-card-back="{{ card.back }}"
+                >
+                    Delete
+                </button>
+            </div>
+        </li>
+    {% endfor %}
+</ul>
+</div>
+
+<!-- New Card Modal -->
+<div class="modal fade" id="newCardModal" tabindex="-1" aria-labelledby="newCardModalLabel" aria-hidden="true">
+    <!-- <div class="modal fade" id="newCardModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="newCardModalLabel" aria-hidden="true"> -->
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newCardModalLabel">New Card</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="createCardForm" class="row g-3" method="POST">
+                <div class="modal-body">
+                    <input type="text-area" class="form-control modal-input" name="front" placeholder="Card front...">
+                    <input type="text-area" class="modal-input form-control" name="back" placeholder="Card back...">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Create Card</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    const modal = document.getElementById('newCardModal');
+    modal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const deckId = button.getAttribute('data-deck-id');
+        const createForm = modal.querySelector('#createCardForm');
+        createForm.action = `/decks/${deckId}/cards`;
+    });
+</script>
+
+<!-- Delete Card Modal -->
+<div class="modal fade" id="deleteCardModal" tabindex="-1" aria-labelledby="deleteCardModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteCardModalLabel">Delete Card</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="deleteForm" class="row g-3" method="POST">
+                <div class="modal-body">
+                    <h4>Delete this card?</h4>
+                    <input type="hidden" name="_method" value="DELETE">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    const deleteModal = document.getElementById('deleteCardModal');
+    deleteModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const deckId = button.getAttribute('data-deck-id');
+        const cardId = button.getAttribute('data-card-id');
+        const deleteForm = deleteModal.querySelector('#deleteForm');
+        deleteForm.action = `/decks/${deckId}/cards/${cardId}`;
+    });
+</script>
+
+{% endblock %}

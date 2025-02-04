@@ -31,8 +31,6 @@ a {
 /* Utilities */
 
 .container {
-    width: 100%;
-    max-width: 592px;
     margin: 0 auto;
 }
 

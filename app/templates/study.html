@@ -5,54 +5,62 @@
 {% endblock %}
 
 {% block content %}
-<div class="study-title-bar">
-    <div>
-        <h1 class="title">Studying Deck: {{ deck.name }}</h1>
-    </div>
-    <div>
-        <a href="/decks" class="btn btn-secondary">
-            Back to Decks
-        </a>
-    </div>
-</div>
-<div class="study-content">
-    <div class="flashcard">
-        <div id="flashcard-front">
+<div class="h-full w-full">
+    <div class="flex flex-col border-b items-center min-w-full">
+        <div class="my-4">
+            <h1 class="text-2xl md:text-4xl">Studying Deck: {{ deck.name }}</h1>
+        </div>
+        <div class="mt-2 mb-4">
+            <a href="/decks" class="btn btn-secondary">
+                Back to Decks
+            </a>
         </div>
     </div>
-    <div>
-        <button class="btn btn-primary" onclick="showAnswer()">
-            Reveal Answer
-        </button>
-    </div>
-    <div class="flashcard">
-        <div id="flashcard-back">
+    <div class="flex flex-col items-center my-4">
+        <div id="front-or-back-indicator" class="pb-2">
         </div>
-    </div>
-    <div class="study-button-group">
-        <!-- <button class="btn btn-secondary">
-            Previous
-        </button> -->
-        <button class="btn btn-info" onclick="randomCard()">
-            Random
-        </button>
-        <button class="btn btn-danger" onclick="updateCard()">
-            Repeat
-        </button>
-        <button class="btn btn-secondary" onclick="nextCard()">
-            Next
-        </button>
+        <div class="flex flex-col border justify-center items-center bg-[#fff8dc] min-h-[45vh] max-h-[45vh] min-w-full p-2">
+            <div id="flashcard-front" class="overflow-auto">
+            </div>
+            <div id="flashcard-back" class="overflow-auto">
+            </div>
+        </div>
+        <div class="mt-4">
+            <div id="reveal-button" class="">
+                <button class="btn btn-primary" onclick="showAnswer()">
+                    Reveal Answer
+                </button>
+            </div>
+            <div id="next-card-button-group" class="hidden flex gap-3">
+                <button class="btn btn-info" onclick="randomCard()">
+                    Random
+                </button>
+                <button class="btn btn-danger" onclick="updateCard()">
+                    Repeat
+                </button>
+                <button class="btn btn-secondary" onclick="nextCard()">
+                    Next
+                </button>
+            </div>
+        </div>
     </div>
 </div>
 
 <script>
     let cards = JSON.parse('{{ deck.cards | tojson }}');
     let currentIndex = 0;
+    let revealed = false;
 
 
     function updateCard() {
+        document.getElementById("front-or-back-indicator").textContent = `Card #${currentIndex + 1}: Front`;
+
         document.getElementById("flashcard-front").textContent = cards[currentIndex].front;
         document.getElementById("flashcard-back").textContent = "";
+
+        document.getElementById("reveal-button").classList.remove("hidden");
+        document.getElementById("next-card-button-group").classList.add("hidden");
+        revealed = false;
     }
 
     function randomCard() {
@@ -66,7 +74,14 @@
     }
 
     function showAnswer() {
+        document.getElementById("front-or-back-indicator").textContent = `Card #${currentIndex + 1}: Back`;
+
+        document.getElementById("flashcard-front").textContent = "";
         document.getElementById("flashcard-back").textContent = cards[currentIndex].back;
+
+        document.getElementById("reveal-button").classList.add("hidden");
+        document.getElementById("next-card-button-group").classList.remove("hidden");
+        revealed = true;
     }
 
     window.onload = updateCard;

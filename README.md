@@ -43,7 +43,7 @@ The DATABASE_URL variable is your database url.
 
 ### Run migrations
 
-WIP
+!!!WIP
 
 ### Run the app
 

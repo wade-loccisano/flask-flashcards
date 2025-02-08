@@ -2,7 +2,7 @@ from flask import request
 from functools import wraps
 from werkzeug.exceptions import BadRequest
 from app.utils.exceptions import BadRequestException
-from app.utils.validators.deck import validate_create_deck
+from app.utils.validators.deck import validate_create_deck, validate_edit_deck
 
 
 def validate_json(ignore_methods=None):
@@ -20,7 +20,10 @@ def validate_json(ignore_methods=None):
             except BadRequest:
                 raise BadRequestException("Invalid JSON.")
             if request.method == "POST":
-                validate_create_deck(data)
+                if request.form.get("_method", "") != "DELETE":
+                    validate_create_deck(data)
+            if request.method == "PUT":
+                validate_edit_deck(data)
             return f(*args, **kwargs)
 
         return wrapper

@@ -8,5 +8,4 @@ class BadRequestException(Exception):
 
 
 def bad_request(exception) -> ResponseType:
-    print("bad request")
     return Response(response=str(exception), status=400)

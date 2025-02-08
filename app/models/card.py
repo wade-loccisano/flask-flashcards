@@ -1,6 +1,5 @@
 from app.extensions import db
 from .__mixins__ import TimestampMixin
-from flask_restful import fields
 
 
 class Card(db.Model, TimestampMixin):

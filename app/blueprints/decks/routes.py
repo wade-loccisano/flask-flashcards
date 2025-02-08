@@ -30,6 +30,7 @@ def decks():
 
 
 @bp.route("/decks/<id>/", methods=["GET", "POST", "PUT"])
+@validate_json(ignore_methods=["GET"])
 def deck(id):
     deck = db.session.query(Deck).get(id)
     if deck is None:
@@ -50,9 +51,9 @@ def deck(id):
             # return Response(status=204)
 
     if request.method == "PUT":
-        body = request.get_json()
+        name = request.form.get("name")
 
-        deck.name = body.get("name", deck.name)
+        deck.name = name
 
         db.session.commit()
 

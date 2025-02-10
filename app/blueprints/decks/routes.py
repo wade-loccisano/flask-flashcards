@@ -2,11 +2,11 @@ from app.blueprints.decks import bp
 from app.models.deck import Deck
 from flask import request, jsonify, Response, render_template, redirect, url_for
 from app.extensions import db
+from app.utils.decorators import validate_json
 
 
 @bp.route("/decks", methods=["GET", "POST"])
-# @marshal_with(Deck.get_fields())
-# @login_required
+@validate_json(ignore_methods=["GET"])
 def decks():
     # get user id
     if request.method == "GET":
@@ -14,7 +14,7 @@ def decks():
         order_by = request.args.get("order_by", None)
 
         decks = db.session.query(Deck).order_by(order_by).limit(limit).all()
-        json = jsonify([deck.serialize() for deck in decks])
+        # json = jsonify([deck.serialize() for deck in decks])
 
         return render_template("decks.html", decks=decks)
 
@@ -26,11 +26,11 @@ def decks():
         db.session.add(deck)
         db.session.commit()
 
-        # 201
         return redirect(url_for("decks_blueprint.decks"))
 
 
 @bp.route("/decks/<id>/", methods=["GET", "POST", "PUT"])
+@validate_json(ignore_methods=["GET"])
 def deck(id):
     deck = db.session.query(Deck).get(id)
     if deck is None:
@@ -51,9 +51,9 @@ def deck(id):
             # return Response(status=204)
 
     if request.method == "PUT":
-        body = request.get_json()
+        name = request.form.get("name")
 
-        deck.name = body.get("name", deck.name)
+        deck.name = name
 
         db.session.commit()
 

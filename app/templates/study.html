@@ -19,27 +19,27 @@
     <div class="flex flex-col items-center my-4">
         <div id="front-or-back-indicator" class="pb-2">
         </div>
-        <div class="flex flex-col border justify-center items-center bg-[#fff8dc] min-h-[45vh] max-h-[45vh] min-w-full p-2">
-            <div id="flashcard-front" class="overflow-auto">
+        <div class="text-3xl flex flex-col border justify-center items-center bg-[#fff8dc] min-h-[45vh] max-h-[45vh] min-w-full p-2 overflow-auto">
+            <div id="flashcard-front" class="">
             </div>
-            <div id="flashcard-back" class="overflow-auto">
-            </div>
+            <!-- <div id="flashcard-back" class="">
+            </div> -->
         </div>
         <div class="mt-4">
             <div id="reveal-button" class="">
-                <button class="btn btn-primary" onclick="showAnswer()">
+                <button class="btn btn-primary min-w-[250px]" onclick="showAnswer()">
                     Reveal Answer
                 </button>
             </div>
-            <div id="next-card-button-group" class="hidden flex gap-3">
+            <div id="next-card-button-group" class="hidden flex gap-5">
                 <button class="btn btn-info" onclick="randomCard()">
                     Random
                 </button>
-                <button class="btn btn-danger" onclick="updateCard()">
-                    Repeat
-                </button>
                 <button class="btn btn-secondary" onclick="nextCard()">
                     Next
+                </button>
+                <button class="btn btn-danger" onclick="updateCard()">
+                    Repeat
                 </button>
             </div>
         </div>
@@ -56,7 +56,7 @@
         document.getElementById("front-or-back-indicator").textContent = `Card #${currentIndex + 1}: Front`;
 
         document.getElementById("flashcard-front").textContent = cards[currentIndex].front;
-        document.getElementById("flashcard-back").textContent = "";
+        // document.getElementById("flashcard-back").textContent = "";
 
         document.getElementById("reveal-button").classList.remove("hidden");
         document.getElementById("next-card-button-group").classList.add("hidden");
@@ -76,8 +76,8 @@
     function showAnswer() {
         document.getElementById("front-or-back-indicator").textContent = `Card #${currentIndex + 1}: Back`;
 
-        document.getElementById("flashcard-front").textContent = "";
-        document.getElementById("flashcard-back").textContent = cards[currentIndex].back;
+        document.getElementById("flashcard-front").textContent = cards[currentIndex].back;
+        // document.getElementById("flashcard-back").textContent = cards[currentIndex].back;
 
         document.getElementById("reveal-button").classList.add("hidden");
         document.getElementById("next-card-button-group").classList.remove("hidden");

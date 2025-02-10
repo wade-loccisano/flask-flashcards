@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_migrate import Migrate
 from app.extensions import db
+from app.utils.exceptions import BadRequestException, bad_request
 from config import app_config
 
 template_dir = "./templates"
@@ -28,5 +29,9 @@ def create_app():
     decks_bp.register_blueprint(study_bp)
 
     app.register_blueprint(decks_bp)
+
+    @app.errorhandler(BadRequestException)
+    def bad_request_exception(e):
+        return bad_request(e)
 
     return app

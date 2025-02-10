@@ -1,9 +1,6 @@
 from app.extensions import db
 from .__mixins__ import TimestampMixin
 
-# from sqlalchemy.inspection import inspect
-from flask_restful import fields
-
 
 class Deck(db.Model, TimestampMixin):
     __tablename__ = "Decks"

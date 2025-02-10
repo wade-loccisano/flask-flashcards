@@ -55,7 +55,12 @@ The server will be running on `http://127.0.0.1:5000/`
 
 ## TODO
 
+- [x] Seed demo decks and cards
 - [ ] Readme Migrations Section
-- [ ] Seed demo decks and cards
 - [ ] Docker Support
-- [ ] Edit Card page layout improvements
+- [ ] Unit tests
+- [ ] Logging
+- [ ] Auth
+- [ ] CI/CD
+- [ ] Layout improvements
+- [ ] 

@@ -39,8 +39,6 @@ SECRET_KEY=
 DATABASE_URL=
 ```
 
-The DATABASE_URL variable is your database url.
-
 ### Run migrations
 
 !!!WIP

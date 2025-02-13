@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block extra_styles %}
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='/index.css') }}"> -->
+{% endblock %}
+
+{% block content %}
+<div class="h-full w-full">
+    <form id="card-form" name="" action="/add" method="POST">
+    <div class="flex flex-col border-b items-center min-w-full">
+        <div class="my-4">
+            <h1 class="text-4xl">Add</h1>
+        </div>
+        <div class="mt-2 mb-4">
+                <label for="deck">Deck:</label>
+                <select name="deck" id="deck">
+                    {% for deck in decks %}
+                        <option value="{{ deck.id }}">{{ deck.name }}</option>
+                    {% endfor %}
+                </select>
+        </div>
+    </div>
+    <div class="flex flex-col items-center my-4">
+        <div class="text-2xl flex flex-col items-center min-h-[55vh] min-w-full gap-2">
+            <div class="text-lg">
+                Front
+            </div>
+            <textarea id="card-input-front" name="front" class="bg-slate-200 w-full p-2"></textarea>
+            <div class="text-lg">
+                Back
+            </div>
+            <textarea id="card-input-back" name="back" class="bg-slate-200 w-full p-2"></textarea>
+        </div>
+        <div class="my-4">
+            <div id="reveal-button" class="">
+                <button 
+                    class="btn btn-primary min-w-[250px]"
+                    type="submit"
+                >
+                    Add
+                </button>
+            </div>
+        </div>
+    </div>
+    </form>
+</div>
+
+<script>
+    document.addEventListener("input", function (event) {
+        if (event.target.id === "card-input-front" || event.target.id === "card-input-back") {
+            event.target.style.height = "auto"; // Reset height
+            event.target.style.height = event.target.scrollHeight + "px"; // Set new height
+        }
+    });
+    // document.getElementById("deck").addEventListener("change", function() {
+    //     let selectedId = this.value;
+    //     document.getElementById("card-form").action = "/add/" + selectedId;
+    // });
+    // </script>
+{% endblock %}

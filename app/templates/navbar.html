@@ -1,0 +1,34 @@
+{% block extra_styles %}
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='/index.css') }}"> -->
+{% endblock %}
+
+<nav>
+    <ul class="flex justify-end">
+        <!-- <li class="my-2 p-2 hover:bg-slate-200 rounded-full"><a href="/">Welcome</a></li> -->
+        <li class="p-2">
+            <a href="/decks"
+            class="p-2 hover:bg-slate-200 rounded-full"
+            >Decks</a>
+        </li>
+        <li class="p-2">
+            <a href="/add"
+            class="p-2 hover:bg-slate-200 rounded-full"
+            >Add</a>
+        </li>
+        <li class="p-2">
+            <a href="/"
+            class="p-2 hover:bg-slate-200 rounded-full"
+            >Browse</a>
+        </li>
+        <li class="p-2">
+            <a href="/"
+            class="p-2 hover:bg-slate-200 rounded-full"
+            >Stats</a>
+        </li>
+        <li class="p-2">
+            <a href="/"
+            class="p-2 hover:bg-slate-200 rounded-full"
+            >Profile</a>
+        </li>
+    </ul>
+</nav>

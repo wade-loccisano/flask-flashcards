@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block extra_styles %}
-    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='/index.css') }}"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='/browse.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -35,7 +35,7 @@
                         <td>email@email.com</td>
                     </tr>
                     {% for card in cards %}
-                        <tr>
+                        <tr id={{ card.id }} onclick = "selectCard(this)">
                             <td>{{ card.id }}</td>
                             <td>{{ card.front }}</td>
                             <td>{{ card.back }}</td>
@@ -79,4 +79,16 @@
         }
     });
 </script>
+
+<script>
+    function selectCard(item) {
+        const prevElem = document.getElementsByClassName("new-class");
+        if (prevElem.length > 0) {
+            prevElem[0].classList.remove("new-class")
+        }
+        const element = document.getElementById(item.id);
+        element.classList.add("new-class");
+        console.log('item: ', {item})
+    }
+  </script>
 {% endblock %}

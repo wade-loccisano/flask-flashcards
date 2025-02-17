@@ -35,7 +35,13 @@
                         <td>email@email.com</td>
                     </tr>
                     {% for card in cards %}
-                        <tr id={{ card.id }} onclick = "selectCard(this)">
+                        <tr 
+                            id={{ card.id }}
+                            onclick="selectCard(this)"
+                            data-front="{{ card.front }}"
+                            data-back="{{ card.back }}"
+                            data-deckId="{{ card.deckId }}"
+                        >
                             <td>{{ card.id }}</td>
                             <td>{{ card.front }}</td>
                             <td>{{ card.back }}</td>
@@ -55,7 +61,7 @@
             <div class="text-lg">
                 Back
             </div>
-            <textarea id="card6-input-back" name="back" class="bg-slate-200 w-full p-2"></textarea>
+            <textarea id="card-input-back" name="back" class="bg-slate-200 w-full p-2"></textarea>
         </div>
         <div class="py-4">
             <div id="reveal-button" class="">
@@ -88,7 +94,10 @@
         }
         const element = document.getElementById(item.id);
         element.classList.add("new-class");
-        console.log('item: ', {item})
+        const front = item.dataset.front;
+        const back = item.dataset.back;
+        document.getElementById("card-input-front").textContent = front;
+        document.getElementById("card-input-back").textContent = back;
     }
   </script>
 {% endblock %}

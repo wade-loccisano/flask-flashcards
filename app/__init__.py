@@ -27,12 +27,14 @@ def create_app():
 
     from app.blueprints.simple import bp as simple_bp
     from app.blueprints.add import bp as add_bp
+    from app.blueprints.browse import bp as browse_bp
     from app.blueprints.decks import bp as decks_bp
     from app.blueprints.cards import bp as cards_bp
     from app.blueprints.study import bp as study_bp
 
     app.register_blueprint(simple_bp)
     app.register_blueprint(add_bp)
+    app.register_blueprint(browse_bp)
     decks_bp.register_blueprint(cards_bp)
     decks_bp.register_blueprint(study_bp)
 

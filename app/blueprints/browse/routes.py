@@ -1,4 +1,4 @@
-from app.blueprints.add import bp
+from app.blueprints.browse import bp
 from app.models.card import Card
 from app.models.deck import Deck
 from flask import request, jsonify, Response, render_template, redirect, url_for
@@ -7,18 +7,19 @@ from app.utils.decorators import validate_json
 from flask_restful import Resource, reqparse
 
 
-@bp.route("/add", methods=["GET", "POST"])
-def add():
+@bp.route("/browse", methods=["GET", "POST"])
+def browse():
     if request.method == "GET":
         limit = request.args.get("limit", None)
         order_by = request.args.get("order_by", None)
 
-        decks = db.session.query(Deck).order_by(order_by).limit(limit).all()
+        cards = db.session.query(Card).order_by(order_by).limit(limit).all()
 
-        return render_template("add.html", decks=decks, deckId=decks[0].id)
+        return render_template("browse.html", cards=cards)
 
     if request.method == "POST":
         id = request.form.get("deck")
+        cardId = request.form.get("card")
         front = request.form.get("front")
         back = request.form.get("back")
 
@@ -33,23 +34,3 @@ def add():
         decks = db.session.query(Deck).order_by(order_by).limit(limit).all()
 
         return render_template("add.html", decks=decks, deckId=id)
-
-
-# @bp.route("/add", methods=["POST"])
-# @validate_json()
-# def add_card(id):
-#     deck = db.session.query(Deck).get(id)
-#     if deck is None:
-#         response = f"Deck:{id} not found."
-#         return Response(response=response, status=404)
-
-#     if request.method == "POST":
-#         front = request.form.get("front")
-#         back = request.form.get("back")
-
-#         card = Card.from_string(front, back, id)
-
-#         db.session.add(card)
-#         db.session.commit()
-
-#         return 200

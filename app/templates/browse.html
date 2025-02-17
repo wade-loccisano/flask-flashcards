@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='/browse.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="h-full w-full">
+    <form id="card-form" name="" action="/add" method="POST">
+    <div class="flex flex-col border-b items-center min-w-full">
+        <div class="my-4">
+            <h1 class="text-4xl">Browse</h1>
+        </div>
+        <div class="mt-2 mb-4">
+                <label for="deck">Search:</label>
+                <select name="deck" id="deck">
+                    {% for deck in decks %}
+                        <option value="{{ deck.id }}">{{ deck.name }}</option>
+                    {% endfor %}
+                </select>
+        </div>
+        <div class="w-full h-56 overflow-x-hidden overflow-y-scroll">
+            <table id="browse-table">
+                <thead class="sticky">
+                    <tr class="min-w-full">
+                        <th class="w-1/3">Id</th>
+                        <th class="w-1/3">Front</th>
+                        <th class="w-1/3">Back</th>
+                    </tr>
+                </thead>
+                <tbody class="h-full">
+                    <tr>
+                        <td>1</td>
+                        <td>Wade</td>
+                        <td>email@email.com</td>
+                    </tr>
+                    {% for card in cards %}
+                        <tr 
+                            id={{ card.id }}
+                            onclick="selectCard(this)"
+                            data-front="{{ card.front }}"
+                            data-back="{{ card.back }}"
+                            data-deckId="{{ card.deckId }}"
+                        >
+                            <td>{{ card.id }}</td>
+                            <td>{{ card.front }}</td>
+                            <td>{{ card.back }}</td>
+                            <td>{{ card.deckId }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="flex flex-col items-center my-4">
+        <div class="text-2xl flex flex-col items-center min-h-[35vh] min-w-full gap-2">
+            <div class="text-lg">
+                Front
+            </div>
+            <textarea id="card-input-front" name="front" class="bg-slate-200 w-full p-2"></textarea>
+            <div class="text-lg">
+                Back
+            </div>
+            <textarea id="card-input-back" name="back" class="bg-slate-200 w-full p-2"></textarea>
+        </div>
+        <div class="py-4">
+            <div id="reveal-button" class="">
+                <button 
+                    class="btn btn-primary min-w-[250px]"
+                    type="submit"
+                >
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+    </form>
+</div>
+
+<script>
+    document.addEventListener("input", function (event) {
+        if (event.target.id === "card-input-front" || event.target.id === "card-input-back") {
+            event.target.style.height = "auto";
+            event.target.style.height = event.target.scrollHeight + "px";
+        }
+    });
+</script>
+
+<script>
+    function selectCard(item) {
+        const prevElem = document.getElementsByClassName("new-class");
+        if (prevElem.length > 0) {
+            prevElem[0].classList.remove("new-class")
+        }
+        const element = document.getElementById(item.id);
+        element.classList.add("new-class");
+        const front = item.dataset.front;
+        const back = item.dataset.back;
+        document.getElementById("card-input-front").textContent = front;
+        document.getElementById("card-input-back").textContent = back;
+    }
+  </script>
+{% endblock %}

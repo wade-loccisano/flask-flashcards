@@ -15,13 +15,27 @@ def browse():
 
         cards = db.session.query(Card).order_by(order_by).limit(limit).all()
 
-        return render_template("browse.html", cards=cards)
+        limit = request.args.get("limit", None)
+        order_by = request.args.get("order_by", None)
+
+        decks = db.session.query(Deck).order_by(order_by).limit(limit).all()
+
+        return render_template(
+            "browse.html", cards=cards, decks=decks, selected_deck_id=None
+        )
 
     if request.method == "POST":
         id = request.form.get("deckId")
         cardId = request.form.get("cardId")
         front = request.form.get("front")
         back = request.form.get("back")
+        selected_deck_id = request.form.get("deck-select-input")
+
+        # no cardId create new card
+        # no deckId? create new deck?
+
+        if not selected_deck_id:
+            id = None
 
         card = db.session.query(Card).filter(Card.id == cardId).first()
         card.front = front
@@ -34,4 +48,11 @@ def browse():
 
         cards = db.session.query(Card).order_by(order_by).limit(limit).all()
 
-        return render_template("browse.html", cards=cards)
+        limit = request.args.get("limit", None)
+        order_by = request.args.get("order_by", None)
+
+        decks = db.session.query(Deck).order_by(order_by).limit(limit).all()
+
+        return render_template(
+            "browse.html", cards=cards, decks=decks, selected_deck_id=id
+        )

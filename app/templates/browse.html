@@ -13,11 +13,11 @@
             </div>
             <div class="mt-2 mb-4">
                     <label for="deck">Deck:</label>
-                    <select id="deck-select">
+                    <select id="deck-select" name="deck-select-input" data-selected-deck="{{ selected_deck_id or "" }}">
                     <!-- <select name="deck" id="deck-select"> -->
                         <option value="">All Decks</option>
                         {% for deck in decks %}
-                            <option value="{{ deck.id }}">{{ deck.name }}</option>
+                            <option value="{{ deck.id }}" {% if deck.id|string == selected_deck_id %}selected{% endif %}>{{ deck.name }}</option>
                         {% endfor %}
                     </select>
             </div>
@@ -92,12 +92,15 @@
         if (prevElem.length > 0) {
             prevElem[0].classList.remove("new-class")
         }
+
         const element = document.getElementById(item.id);
         element.classList.add("new-class");
+
         const front = item.dataset.front;
         const back = item.dataset.back;
         const deckId = item.dataset.deckId;
         const cardId = item.dataset.cardId;
+
         document.getElementById("card-input-front").value = front;
         document.getElementById("card-input-back").value = back;
         document.getElementById("card-input-deckId").value = deckId;
@@ -114,7 +117,7 @@
         document.getElementById("card-input-back").value = null;
         document.getElementById("card-input-deckId").value = deckId ? deckId : "";
         document.getElementById("card-input-cardId").value = null;
-        console.log('test is: ', document.getElementById("card-input-deckId").value)
+        // console.log('test is: ', document.getElementById("card-input-deckId").value)
     }
 
     document.addEventListener("input", function (event) {
@@ -124,6 +127,7 @@
         }
     });
 
+    
     document.getElementById("deck-select").addEventListener("change", function () {
         let deckId = this.value;
         unselectCard(deckId);
@@ -133,5 +137,12 @@
             item.style.display = item.dataset.deckId.includes(deckId) ? "" : "none";
         });
     });
+
+    const deckSelect = document.getElementById("deck-select");
+    const selectedDeckId = deckSelect.dataset.selectedDeck;
+    if (selectedDeckId) {
+        deckSelect.value = selectedDeckId;
+        deckSelect.dispatchEvent(new Event("change"));
+    }
 </script>
 {% endblock %}

@@ -12,12 +12,12 @@
             <h1 class="text-4xl">Add</h1>
         </div>
         <div class="mt-2 mb-4">
-                <label for="deck">Deck:</label>
-                <select name="deck" id="deck" class="bg-slate-100">
-                    {% for deck in decks %}
-                        <option value="{{ deck.id }}">{{ deck.name }}</option>
-                    {% endfor %}
-                </select>
+            <label for="deck">Deck:</label>
+            <select name="deck" id="deck" class="bg-slate-100">
+                {% for deck in decks %}
+                    <option value="{{ deck.id }}" {% if deck.id|string == deckId %}selected{% endif %}>{{ deck.name }}</option>
+                {% endfor %}
+            </select>
         </div>
     </div>
     <div class="flex flex-col items-center my-4">

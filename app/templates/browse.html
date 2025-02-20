@@ -12,8 +12,10 @@
                 <h1 class="text-4xl">Browse</h1>
             </div>
             <div class="mt-2 mb-4">
-                    <label for="deck">Search:</label>
-                    <select name="deck" id="deck">
+                    <label for="deck">Deck:</label>
+                    <select id="deck-select">
+                    <!-- <select name="deck" id="deck-select"> -->
+                        <option value="">All Decks</option>
                         {% for deck in decks %}
                             <option value="{{ deck.id }}">{{ deck.name }}</option>
                         {% endfor %}
@@ -30,15 +32,17 @@
                         </tr>
                     </thead>
                     <tbody class="overflow-y-scroll">
-                        <tr>
+                        <!-- <tr>
                             <td>1</td>
                             <td>Wade</td>
                             <td>email@email.com</td>
                             <td>Deck</td>
-                        </tr>
+                        </tr> -->
+                        <!-- {% set filtered_cards = cards | selectattr("deck_id", "equalto", "deck.id") | list %} -->
                         {% for card in cards %}
                             <tr 
-                                id={{ card.id }}
+                                id="card-row-{{ card.id }}"
+                                class="card-row"
                                 onclick="selectCard(this)"
                                 data-front="{{ card.front }}"
                                 data-back="{{ card.back }}"
@@ -56,8 +60,8 @@
             </div>
         </div>
         <div class="flex flex-col items-center my-4">
-            <textarea id="card-input-deckId" name="deckId"></textarea>
-            <textarea id="card-input-cardId" name="cardId"></textarea>
+            <textarea class="hidden" id="card-input-deckId" name="deckId"></textarea>
+            <textarea class="hidden" id="card-input-cardId" name="cardId"></textarea>
             <div class="text-2xl flex flex-col items-center min-h-[35vh] min-w-full gap-2">
                 <div class="text-lg">
                     Front
@@ -83,15 +87,6 @@
 </div>
 
 <script>
-    document.addEventListener("input", function (event) {
-        if (event.target.id === "card-input-front" || event.target.id === "card-input-back") {
-            event.target.style.height = "auto";
-            event.target.style.height = event.target.scrollHeight + "px";
-        }
-    });
-</script>
-
-<script>
     function selectCard(item) {
         const prevElem = document.getElementsByClassName("new-class");
         if (prevElem.length > 0) {
@@ -99,8 +94,6 @@
         }
         const element = document.getElementById(item.id);
         element.classList.add("new-class");
-        console.log('hji: ', item.dataset)
-        console.log('h: ', item)
         const front = item.dataset.front;
         const back = item.dataset.back;
         const deckId = item.dataset.deckId;
@@ -110,5 +103,35 @@
         document.getElementById("card-input-deckId").value = deckId;
         document.getElementById("card-input-cardId").value = cardId;
     }
-  </script>
+
+    function unselectCard(deckId) {
+        const prevElem = document.getElementsByClassName("new-class");
+        if (prevElem.length > 0) {
+            prevElem[0].classList.remove("new-class")
+        }
+        console.log('deck id is: ', deckId)
+        document.getElementById("card-input-front").value = null;
+        document.getElementById("card-input-back").value = null;
+        document.getElementById("card-input-deckId").value = deckId ? deckId : "";
+        document.getElementById("card-input-cardId").value = null;
+        console.log('test is: ', document.getElementById("card-input-deckId").value)
+    }
+
+    document.addEventListener("input", function (event) {
+        if (event.target.id === "card-input-front" || event.target.id === "card-input-back") {
+            event.target.style.height = "auto";
+            event.target.style.height = event.target.scrollHeight + "px";
+        }
+    });
+
+    document.getElementById("deck-select").addEventListener("change", function () {
+        let deckId = this.value;
+        unselectCard(deckId);
+        let cards = document.querySelectorAll(".card-row");
+
+        cards.forEach(item => {
+            item.style.display = item.dataset.deckId.includes(deckId) ? "" : "none";
+        });
+    });
+</script>
 {% endblock %}

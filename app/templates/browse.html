@@ -29,6 +29,7 @@
                             <th class="w-1/4">Front</th>
                             <th class="w-1/4">Back</th>
                             <th class="w-1/4">Deck Id</th>
+                            <th class="w-1/5"></th>
                         </tr>
                     </thead>
                     <tbody class="overflow-y-scroll">
@@ -53,6 +54,19 @@
                                 <td>{{ card.front }}</td>
                                 <td>{{ card.back }}</td>
                                 <td>{{ card.deck_id }}</td>
+                                <td>
+                                    <button 
+                                        type="button"
+                                        class="btn btn-danger"
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#deleteCardModal"
+                                        data-deck-id="{{ card.deck_id }}"
+                                        data-card-id="{{ card.id }}" 
+                                        onclick="deleteButtonClicked(event)"
+                                    >
+                                        Delete
+                                    </button>
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -60,17 +74,17 @@
             </div>
         </div>
         <div class="flex flex-col items-center my-4">
-            <textarea class="hidden" id="card-input-deckId" name="deckId"></textarea>
-            <textarea class="hidden" id="card-input-cardId" name="cardId"></textarea>
+            <textarea class="hidden resize-none" id="card-input-deckId" name="deckId"></textarea>
+            <textarea class="hidden resize-none" id="card-input-cardId" name="cardId"></textarea>
             <div class="text-2xl flex flex-col items-center min-h-[35vh] min-w-full gap-2">
                 <div class="text-lg">
                     Front
                 </div>
-                <textarea id="card-input-front" name="front" class="bg-slate-200 w-full p-2"></textarea>
+                <textarea id="card-input-front" name="front" class="bg-slate-200 w-full p-2  resize-none"></textarea>
                 <div class="text-lg">
                     Back
                 </div>
-                <textarea id="card-input-back" name="back" class="bg-slate-200 w-full p-2"></textarea>
+                <textarea id="card-input-back" name="back" class="bg-slate-200 w-full p-2  resize-none"></textarea>
             </div>
             <div class="py-4">
                 <div id="reveal-button" class="">
@@ -86,7 +100,47 @@
     </form>
 </div>
 
+<!-- Delete card Modal -->
+<div class="modal fade" id="deleteCardModal" tabindex="-1" aria-labelledby="deleteCardModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteCardModalLabel">Delete Card</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="deleteForm" class="row g-3" method="POST">
+                <div class="modal-body">
+                    <h2 id="message"></h2>
+                    <h4>This will delete this card!</h4>
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="deckId" id="deckIdInput">
+                    <input type="hidden" name="cardId" id="cardIdInput">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
+    function deleteButtonClicked(event) {
+        event.stopPropagation();
+    }
+
+    const deleteModal = document.getElementById('deleteCardModal');
+    deleteModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const deckId = button.getAttribute('data-deck-id');
+        const cardId = button.getAttribute('data-card-id');
+        const deleteForm = deleteModal.querySelector('#deleteForm');
+        deleteForm.querySelector('#deckIdInput').value = deckId;
+        deleteForm.querySelector('#cardIdInput').value = cardId;
+        deleteForm.action = `browse`;
+    });
+
     function selectCard(item) {
         const prevElem = document.getElementsByClassName("new-class");
         if (prevElem.length > 0) {
@@ -112,12 +166,10 @@
         if (prevElem.length > 0) {
             prevElem[0].classList.remove("new-class")
         }
-        console.log('deck id is: ', deckId)
         document.getElementById("card-input-front").value = null;
         document.getElementById("card-input-back").value = null;
         document.getElementById("card-input-deckId").value = deckId ? deckId : "";
         document.getElementById("card-input-cardId").value = null;
-        // console.log('test is: ', document.getElementById("card-input-deckId").value)
     }
 
     document.addEventListener("input", function (event) {

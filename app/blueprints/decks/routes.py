@@ -20,7 +20,7 @@ def decks():
         return render_template("decks.html", decks=decks)
 
     if request.method == "POST":
-        name = request.form.get("name")
+        name = request.form.get("name").strip()
 
         deck = Deck.from_string(name)
 
@@ -54,7 +54,6 @@ def deck(id):
         response = f"Deck:{id} not found."
         return Response(response=response, status=404)
 
-    # consider just using decks/id/cards
     if request.method == "GET":
         return jsonify(deck.serialize())
 
@@ -68,7 +67,7 @@ def deck(id):
             # return Response(status=204)
 
     if request.method == "PUT":
-        name = request.form.get("name")
+        name = request.form.get("name").strip()
 
         deck.name = name
 

@@ -15,8 +15,8 @@ def cards(deck_id):
         return render_template("cards.html", deck=deck.serialize())
 
     if request.method == "POST":
-        front = request.form.get("front")
-        back = request.form.get("back")
+        front = request.form.get("front").strip()
+        back = request.form.get("back").strip()
 
         card = Card.from_string(front, back, deck_id)
 
@@ -58,8 +58,8 @@ def card(deck_id, card_id):
     if request.method == "PUT":
         body = request.get_json()
 
-        card.front = body.get("front", card.front)
-        card.back = body.get("back", card.back)
+        card.front = body.get("front", card.front).strip()
+        card.back = body.get("back", card.back).strip()
 
         db.session.commit()
 

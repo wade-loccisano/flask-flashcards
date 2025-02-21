@@ -16,6 +16,9 @@
             <select name="deck" id="deck" class="bg-slate-100">
                 {% for deck in decks %}
                     <option value="{{ deck.id }}" {% if deck.id|string == deckId %}selected{% endif %}>{{ deck.name }}</option>
+                    <!-- {% if decks.length == 0 %}
+                        <option value="{{ -1 }}">New Deck</option>
+                    {% endif %} -->
                 {% endfor %}
             </select>
         </div>
@@ -25,11 +28,11 @@
             <div class="text-lg">
                 Front
             </div>
-            <textarea id="card-input-front" name="front" class="bg-slate-200 w-full p-2"></textarea>
+            <textarea id="card-input-front" name="front" class="bg-slate-200 w-full p-2 resize-none"></textarea>
             <div class="text-lg">
                 Back
             </div>
-            <textarea id="card-input-back" name="back" class="bg-slate-200 w-full p-2"></textarea>
+            <textarea id="card-input-back" name="back" class="bg-slate-200 w-full p-2 resize-none"></textarea>
         </div>
         <div class="my-4">
             <div id="reveal-button" class="">
@@ -52,9 +55,5 @@
             event.target.style.height = event.target.scrollHeight + "px";
         }
     });
-    // document.getElementById("deck").addEventListener("change", function() {
-    //     let selectedId = this.value;
-    //     document.getElementById("card-form").action = "/add/" + selectedId;
-    // });
-    // </script>
+    </script>
 {% endblock %}

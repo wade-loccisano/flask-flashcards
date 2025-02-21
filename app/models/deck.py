@@ -27,7 +27,7 @@ class Deck(db.Model, TimestampMixin):
                     "id": card.id,
                     "front": card.front,
                     "back": card.back,
-                    "deck Id": card.deck_id,
+                    "deckId": card.deck_id,
                 }
                 for card in self.cards
             ],

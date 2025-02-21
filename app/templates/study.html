@@ -20,9 +20,9 @@
         <!-- <div id="front-or-back-indicator" class="pb-2"> -->
         <!-- </div> -->
         <div class="text-4xl flex flex-col items-center min-h-[55vh] max-h-[45vh] overflow-auto min-w-[60%]">
-            <div id="flashcard-front" class="">
+            <div id="flashcard-front" class="whitespace-pre-wrap text-center">
             </div>
-            <div id="flashcard-back" class="border-top">
+            <div id="flashcard-back" class="border-top whitespace-pre-wrap text-center pt-2">
             </div>
         </div>
         <div class="mt-4">
@@ -47,7 +47,7 @@
 </div>
 
 <script>
-    let cards = JSON.parse('{{ deck.cards | tojson }}');
+    let cards = JSON.parse({{ deck.cards | tojson | tojson }});
     let currentIndex = 0;
     let revealed = false;
 

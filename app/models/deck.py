@@ -8,7 +8,7 @@ class Deck(db.Model, TimestampMixin):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)  # uuid
     name = db.Column(db.String, nullable=False)
     cards = db.relationship(
-        "Card", back_populates="deck", cascade="all, delete", lazy=True
+        "Card", back_populates="deck", cascade="all, delete-orphan", lazy=True
     )
 
     def __init__(self, name, cards):

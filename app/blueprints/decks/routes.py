@@ -63,8 +63,6 @@ def deck(id):
             db.session.commit()
 
             return redirect(url_for("decks_blueprint.decks"))
-            # no content
-            # return Response(status=204)
 
     if request.method == "PUT":
         name = request.form.get("name").strip()

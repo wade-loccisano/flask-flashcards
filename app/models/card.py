@@ -8,7 +8,7 @@ class Card(db.Model, TimestampMixin):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)  # uuid
     front = db.Column(db.String, nullable=False)
     back = db.Column(db.String, nullable=False)
-    deck_id = db.Column(db.Integer, db.ForeignKey("Decks.id"))
+    deck_id = db.Column(db.Integer, db.ForeignKey("Decks.id", ondelete="CASCADE"))
     deck = db.relationship("Deck", back_populates="cards")
 
     def __init__(self, front, back, deck_id):

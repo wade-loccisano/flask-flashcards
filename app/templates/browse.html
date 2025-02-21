@@ -12,10 +12,12 @@
                 <h1 class="text-4xl">Browse</h1>
             </div>
             <div class="mt-2 mb-4">
-                    <label for="deck">Search:</label>
-                    <select name="deck" id="deck">
+                    <label for="deck">Deck:</label>
+                    <select id="deck-select" name="deck-select-input" data-selected-deck="{{ selected_deck_id or "" }}">
+                    <!-- <select name="deck" id="deck-select"> -->
+                        <option value="">All Decks</option>
                         {% for deck in decks %}
-                            <option value="{{ deck.id }}">{{ deck.name }}</option>
+                            <option value="{{ deck.id }}" {% if deck.id|string == selected_deck_id %}selected{% endif %}>{{ deck.name }}</option>
                         {% endfor %}
                     </select>
             </div>
@@ -27,18 +29,21 @@
                             <th class="w-1/4">Front</th>
                             <th class="w-1/4">Back</th>
                             <th class="w-1/4">Deck Id</th>
+                            <th class="w-1/5"></th>
                         </tr>
                     </thead>
                     <tbody class="overflow-y-scroll">
-                        <tr>
+                        <!-- <tr>
                             <td>1</td>
                             <td>Wade</td>
                             <td>email@email.com</td>
                             <td>Deck</td>
-                        </tr>
+                        </tr> -->
+                        <!-- {% set filtered_cards = cards | selectattr("deck_id", "equalto", "deck.id") | list %} -->
                         {% for card in cards %}
                             <tr 
-                                id={{ card.id }}
+                                id="card-row-{{ card.id }}"
+                                class="card-row"
                                 onclick="selectCard(this)"
                                 data-front="{{ card.front }}"
                                 data-back="{{ card.back }}"
@@ -49,6 +54,19 @@
                                 <td>{{ card.front }}</td>
                                 <td>{{ card.back }}</td>
                                 <td>{{ card.deck_id }}</td>
+                                <td>
+                                    <button 
+                                        type="button"
+                                        class="btn btn-danger"
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#deleteCardModal"
+                                        data-deck-id="{{ card.deck_id }}"
+                                        data-card-id="{{ card.id }}" 
+                                        onclick="deleteButtonClicked(event)"
+                                    >
+                                        Delete
+                                    </button>
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -56,17 +74,17 @@
             </div>
         </div>
         <div class="flex flex-col items-center my-4">
-            <textarea id="card-input-deckId" name="deckId"></textarea>
-            <textarea id="card-input-cardId" name="cardId"></textarea>
+            <textarea class="hidden resize-none" id="card-input-deckId" name="deckId"></textarea>
+            <textarea class="hidden resize-none" id="card-input-cardId" name="cardId"></textarea>
             <div class="text-2xl flex flex-col items-center min-h-[35vh] min-w-full gap-2">
                 <div class="text-lg">
                     Front
                 </div>
-                <textarea id="card-input-front" name="front" class="bg-slate-200 w-full p-2"></textarea>
+                <textarea id="card-input-front" name="front" class="bg-slate-200 w-full p-2  resize-none"></textarea>
                 <div class="text-lg">
                     Back
                 </div>
-                <textarea id="card-input-back" name="back" class="bg-slate-200 w-full p-2"></textarea>
+                <textarea id="card-input-back" name="back" class="bg-slate-200 w-full p-2  resize-none"></textarea>
             </div>
             <div class="py-4">
                 <div id="reveal-button" class="">
@@ -82,33 +100,101 @@
     </form>
 </div>
 
+<!-- Delete card Modal -->
+<div class="modal fade" id="deleteCardModal" tabindex="-1" aria-labelledby="deleteCardModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteCardModalLabel">Delete Card</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="deleteForm" class="row g-3" method="POST">
+                <div class="modal-body">
+                    <h2 id="message"></h2>
+                    <h4>This will delete this card!</h4>
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="deckId" id="deckIdInput">
+                    <input type="hidden" name="cardId" id="cardIdInput">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
+    function deleteButtonClicked(event) {
+        event.stopPropagation();
+    }
+
+    const deleteModal = document.getElementById('deleteCardModal');
+    deleteModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const deckId = button.getAttribute('data-deck-id');
+        const cardId = button.getAttribute('data-card-id');
+        const deleteForm = deleteModal.querySelector('#deleteForm');
+        deleteForm.querySelector('#deckIdInput').value = deckId;
+        deleteForm.querySelector('#cardIdInput').value = cardId;
+        deleteForm.action = `browse`;
+    });
+
+    function selectCard(item) {
+        const prevElem = document.getElementsByClassName("new-class");
+        if (prevElem.length > 0) {
+            prevElem[0].classList.remove("new-class")
+        }
+
+        const element = document.getElementById(item.id);
+        element.classList.add("new-class");
+
+        const front = item.dataset.front;
+        const back = item.dataset.back;
+        const deckId = item.dataset.deckId;
+        const cardId = item.dataset.cardId;
+
+        document.getElementById("card-input-front").value = front;
+        document.getElementById("card-input-back").value = back;
+        document.getElementById("card-input-deckId").value = deckId;
+        document.getElementById("card-input-cardId").value = cardId;
+    }
+
+    function unselectCard(deckId) {
+        const prevElem = document.getElementsByClassName("new-class");
+        if (prevElem.length > 0) {
+            prevElem[0].classList.remove("new-class")
+        }
+        document.getElementById("card-input-front").value = null;
+        document.getElementById("card-input-back").value = null;
+        document.getElementById("card-input-deckId").value = deckId ? deckId : "";
+        document.getElementById("card-input-cardId").value = null;
+    }
+
     document.addEventListener("input", function (event) {
         if (event.target.id === "card-input-front" || event.target.id === "card-input-back") {
             event.target.style.height = "auto";
             event.target.style.height = event.target.scrollHeight + "px";
         }
     });
-</script>
 
-<script>
-    function selectCard(item) {
-        const prevElem = document.getElementsByClassName("new-class");
-        if (prevElem.length > 0) {
-            prevElem[0].classList.remove("new-class")
-        }
-        const element = document.getElementById(item.id);
-        element.classList.add("new-class");
-        console.log('hji: ', item.dataset)
-        console.log('h: ', item)
-        const front = item.dataset.front;
-        const back = item.dataset.back;
-        const deckId = item.dataset.deckId;
-        const cardId = item.dataset.cardId;
-        document.getElementById("card-input-front").value = front;
-        document.getElementById("card-input-back").value = back;
-        document.getElementById("card-input-deckId").value = deckId;
-        document.getElementById("card-input-cardId").value = cardId;
+    
+    document.getElementById("deck-select").addEventListener("change", function () {
+        let deckId = this.value;
+        unselectCard(deckId);
+        let cards = document.querySelectorAll(".card-row");
+
+        cards.forEach(item => {
+            item.style.display = item.dataset.deckId.includes(deckId) ? "" : "none";
+        });
+    });
+
+    const deckSelect = document.getElementById("deck-select");
+    const selectedDeckId = deckSelect.dataset.selectedDeck;
+    if (selectedDeckId) {
+        deckSelect.value = selectedDeckId;
+        deckSelect.dispatchEvent(new Event("change"));
     }
-  </script>
+</script>
 {% endblock %}

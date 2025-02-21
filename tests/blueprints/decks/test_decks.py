@@ -4,7 +4,7 @@ from main import app
 def test_get_all_decks():
     with app.test_client() as c:
         response = c.get("/decks")
-        print(response.data)
+        # print(response.data)
         assert response.status_code == 200
 
 

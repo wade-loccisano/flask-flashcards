@@ -5,14 +5,19 @@ from .__mixins__ import TimestampMixin
 class Deck(db.Model, TimestampMixin):
     __tablename__ = "Decks"
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)  # uuid
-    name = db.Column(db.String, nullable=False)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(100), nullable=False)
+    user_id = db.Column(
+        db.String(36), db.ForeignKey("Users.id", ondelete="CASCADE"), nullable=False
+    )
+    user = db.relationship("User", back_populates="decks")
     cards = db.relationship(
         "Card", back_populates="deck", cascade="all, delete-orphan", lazy=True
     )
 
-    def __init__(self, name, cards):
+    def __init__(self, name, user_id, cards):
         self.name = name
+        self.user_id = user_id
         self.cards = cards
 
     def __repr__(self):
@@ -38,5 +43,5 @@ class Deck(db.Model, TimestampMixin):
         return cls(json["name"], json["cards"])
 
     @classmethod
-    def from_string(cls, str):
-        return cls(str, [])
+    def from_string(cls, name, user_id, cards=[]):
+        return cls(name, user_id, cards)

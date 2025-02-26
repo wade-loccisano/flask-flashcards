@@ -2,23 +2,33 @@ from app.blueprints.browse import bp
 from app.models.card import Card
 from app.models.deck import Deck
 from flask import request, jsonify, Response, render_template, redirect, url_for
+from flask_login import login_required, current_user
 from app.extensions import db
 from app.utils.decorators import validate_json
 from flask_restful import Resource, reqparse
 
 
 @bp.route("/browse", methods=["GET", "POST"])
+@login_required
 def browse():
     if request.method == "GET":
+        cards = (
+            db.session.query(Card)
+            .join(Deck)
+            .filter(Deck.user_id == current_user.id)
+            .all()
+        )
+
         limit = request.args.get("limit", None)
         order_by = request.args.get("order_by", None)
 
-        cards = db.session.query(Card).order_by(order_by).limit(limit).all()
-
-        limit = request.args.get("limit", None)
-        order_by = request.args.get("order_by", None)
-
-        decks = db.session.query(Deck).order_by(order_by).limit(limit).all()
+        decks = (
+            db.session.query(Deck)
+            .filter_by(user_id=current_user.id)
+            .order_by(order_by)
+            .limit(limit)
+            .all()
+        )
 
         return render_template(
             "browse.html", cards=cards, decks=decks, selected_deck_id=None
@@ -39,15 +49,23 @@ def browse():
             db.session.delete(card)
             db.session.commit()
 
+            cards = (
+                db.session.query(Card)
+                .join(Deck)
+                .filter(Deck.user_id == current_user.id)
+                .all()
+            )
+
             limit = request.args.get("limit", None)
             order_by = request.args.get("order_by", None)
 
-            cards = db.session.query(Card).order_by(order_by).limit(limit).all()
-
-            limit = request.args.get("limit", None)
-            order_by = request.args.get("order_by", None)
-
-            decks = db.session.query(Deck).order_by(order_by).limit(limit).all()
+            decks = (
+                db.session.query(Deck)
+                .filter_by(user_id=current_user.id)
+                .order_by(order_by)
+                .limit(limit)
+                .all()
+            )
 
             return render_template(
                 "browse.html", cards=cards, decks=decks, selected_deck_id=id
@@ -63,15 +81,23 @@ def browse():
             card.back = back
             db.session.commit()
 
+        cards = (
+            db.session.query(Card)
+            .join(Deck)
+            .filter(Deck.user_id == current_user.id)
+            .all()
+        )
+
         limit = request.args.get("limit", None)
         order_by = request.args.get("order_by", None)
 
-        cards = db.session.query(Card).order_by(order_by).limit(limit).all()
-
-        limit = request.args.get("limit", None)
-        order_by = request.args.get("order_by", None)
-
-        decks = db.session.query(Deck).order_by(order_by).limit(limit).all()
+        decks = (
+            db.session.query(Deck)
+            .filter_by(user_id=current_user.id)
+            .order_by(order_by)
+            .limit(limit)
+            .all()
+        )
 
         return render_template(
             "browse.html", cards=cards, decks=decks, selected_deck_id=id
@@ -79,6 +105,7 @@ def browse():
 
 
 @bp.route("/browse/decks/<int:deck_id>/cards/<int:card_id>/", methods=["POST"])
+@login_required
 def card(deck_id, card_id):
     card = (
         db.session.query(Card)
@@ -98,24 +125,24 @@ def card(deck_id, card_id):
             db.session.delete(card)
             db.session.commit()
 
+            cards = (
+                db.session.query(Card)
+                .join(Deck)
+                .filter(Deck.user_id == current_user.id)
+                .all()
+            )
+
             limit = request.args.get("limit", None)
             order_by = request.args.get("order_by", None)
 
-            cards = db.session.query(Card).order_by(order_by).limit(limit).all()
-
-            limit = request.args.get("limit", None)
-            order_by = request.args.get("order_by", None)
-
-            decks = db.session.query(Deck).order_by(order_by).limit(limit).all()
+            decks = (
+                db.session.query(Deck)
+                .filter_by(user_id=current_user.id)
+                .order_by(order_by)
+                .limit(limit)
+                .all()
+            )
 
             return render_template(
                 "browse.html", cards=cards, decks=decks, selected_deck_id=id
             )
-            # return redirect(
-            #     url_for(
-            #         "browse_blueprint.browse",
-            #         cards=cards,
-            #         decks=decks,
-            #         selected_deck_id=id,
-            #     )
-            # )

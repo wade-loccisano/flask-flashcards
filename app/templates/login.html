@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block extra_styles %}
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='/login.css') }}"> -->
+{% endblock %}
+
+{% block content %}
+    <div class="flex flex-col items-center justify-center h-full">
+        <h1 class="text-4xl">Login</h1>
+        <div class="mt-4 mb-16 text-4xl">
+            Flask Flashcards
+        </div>
+        <div class="">
+            <form method="POST" action="{{ url_for('auth_blueprint.login')}}">
+                <fieldset class="flex flex-col justify-center">
+                    <legend>Existing User Information</legend>
+                    <input 
+                        type="text" 
+                        id="username" 
+                        name="username" 
+                        placeholder="Username" 
+                        required="required" 
+                    >
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        placeholder="Password" 
+                        required="required"
+                    >
+                    <button type="submit" value="Submit" class="btn btn--add">Submit</button>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+{% endblock %}

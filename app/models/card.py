@@ -5,7 +5,7 @@ from .__mixins__ import TimestampMixin
 class Card(db.Model, TimestampMixin):
     __tablename__ = "Cards"
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)  # uuid
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     front = db.Column(db.String, nullable=False)
     back = db.Column(db.String, nullable=False)
     deck_id = db.Column(db.Integer, db.ForeignKey("Decks.id", ondelete="CASCADE"))

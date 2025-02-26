@@ -9,14 +9,14 @@ from app.utils.mapper import (
 )
 
 
-def seed_database():
+def seed_database(user_id):
     print("Seeding the database...")
     # Decks
     # hiragana_deck = Deck(name="Hiragana Deck", cards=[])
     # katakana_deck = Deck(name="Katakana Deck", cards=[])
-    mixed_deck = Deck(name="Hiragana/Katakana Deck", cards=[])
+    mixed_deck = Deck(name="Kana", user_id=user_id, cards=[])
 
-    elements_deck = Deck(name="Periodic Table of Elements", cards=[])
+    elements_deck = Deck(name="Periodic Table of Elements", user_id=user_id, cards=[])
 
     # db.session.add_all([hiragana_deck, katakana_deck, mixed_deck, elements_deck])
     db.session.add_all([mixed_deck, elements_deck])

@@ -16,6 +16,7 @@ def browse():
             db.session.query(Card)
             .join(Deck)
             .filter(Deck.user_id == current_user.id)
+            .add_columns(Deck.name)
             .all()
         )
 

@@ -6,46 +6,46 @@
 
 {% block content %}
 <div class="h-full w-full">
-    <form id="card-form" name="" action="/add" method="POST">
-    <div class="flex flex-col border-b items-center min-w-full">
-        <div class="my-4">
-            <h1 class="text-4xl">Add</h1>
-        </div>
-        <div class="mt-2 mb-4">
-            <label for="deck">Deck:</label>
-            <select name="deck" id="deck" class="bg-slate-100">
-                {% for deck in decks %}
-                    <option value="{{ deck.id }}" {% if deck.id|string == deckId %}selected{% endif %}>{{ deck.name }}</option>
-                    <!-- {% if decks.length == 0 %}
-                        <option value="{{ -1 }}">New Deck</option>
-                    {% endif %} -->
-                {% endfor %}
-            </select>
-        </div>
+    <div class="mt-3 p-2 bg-[#f8f9fa] rounded-2xl shadow-lg">
+        <form id="card-form" name="" action="/add" method="POST">
+            <div class="flex flex-col border-b items-center min-w-full">
+                <div class="my-3">
+                    <h1 class="text-4xl">Add</h1>
+                </div>
+                <div class="mt-2 mb-4">
+                    <label for="deck" class="text-gray-700 font-medium">Deck:</label>
+                    <select name="deck" id="deck" 
+                        class="p-2 bg-white border border-gray-300 rounded shadow-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-400 text-gray-700 max-w-[250px]">
+                        {% for deck in decks %}
+                            <option value="{{ deck.id }}" {% if deck.id|string == deckId %}selected{% endif %}>{{ deck.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="flex flex-col items-center m-4">
+                <div class="text-2xl flex flex-col items-center min-h-[55vh] min-w-full gap-2">
+                    <div class="text-lg">
+                        Front
+                    </div>
+                    <textarea id="card-input-front" name="front" class="bg-slate-200 w-full p-2 resize-none rounded"></textarea>
+                    <div class="text-lg">
+                        Back
+                    </div>
+                    <textarea id="card-input-back" name="back" class="bg-slate-200 w-full p-2 resize-none rounded"></textarea>
+                </div>
+                <div class="my-4">
+                    <div id="reveal-button" class="">
+                        <button 
+                            class="btn btn-primary min-w-[250px]"
+                            type="submit"
+                        >
+                            Add
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
-    <div class="flex flex-col items-center my-4">
-        <div class="text-2xl flex flex-col items-center min-h-[55vh] min-w-full gap-2">
-            <div class="text-lg">
-                Front
-            </div>
-            <textarea id="card-input-front" name="front" class="bg-slate-200 w-full p-2 resize-none"></textarea>
-            <div class="text-lg">
-                Back
-            </div>
-            <textarea id="card-input-back" name="back" class="bg-slate-200 w-full p-2 resize-none"></textarea>
-        </div>
-        <div class="my-4">
-            <div id="reveal-button" class="">
-                <button 
-                    class="btn btn-primary min-w-[250px]"
-                    type="submit"
-                >
-                    Add
-                </button>
-            </div>
-        </div>
-    </div>
-    </form>
 </div>
 
 <script>

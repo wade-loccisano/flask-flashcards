@@ -6,7 +6,7 @@ from app.extensions.seed import seed_database
 
 @bp.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("login.html")
 
 
 @bp.route("/seed", methods=["POST"])

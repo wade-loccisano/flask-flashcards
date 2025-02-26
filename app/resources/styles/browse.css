@@ -1,5 +1,13 @@
-.new-class {
-    background-color: yellow;
+.card-row:hover {
+    background-color: gray;
+}
+
+.selected-line {
+    background-color: yellow !important;
     color: black;
     padding: 10px;
-    }
+}
+
+.selected-line:hover {
+    background-color: green !important;
+}

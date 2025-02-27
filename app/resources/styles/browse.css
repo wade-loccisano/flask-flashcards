@@ -1,5 +1,7 @@
-.new-class {
-    background-color: yellow;
-    color: black;
-    padding: 10px;
-    }
+.selected-line {
+    background-color: #9bbcdb !important;
+}
+
+.selected-line:hover {
+    background-color: #538bc1 !important;
+}

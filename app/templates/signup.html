@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block extra_styles %}
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='/signup.css') }}"> -->
+{% endblock %}
+
+{% block content %}
+<div class="h-full flex flex-col items-center justify-center">
+    <div class="flex flex-col items-center justify-center bg-white rounded-2xl shadow-lg p-4">
+        <h1 class="text-5xl">Flashcards Lite</h1>
+        <h2 class="text-4xl my-3">New Profile</h1>
+        <div class="">
+            <form method="POST" action="{{ url_for('auth_blueprint.signup')}}">
+                <fieldset class="flex flex-col justify-center">
+                    <input 
+                        type="text" 
+                        id="username" 
+                        name="username" 
+                        placeholder="Username" 
+                        required="required"
+                        class="m-2 p-2 border rounded"
+                        minlength="4"
+                        maxlength="50"
+                    >
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        placeholder="Password" 
+                        required="required"
+                        class="m-2 p-2 border rounded"
+                        minlength="8"
+                    >
+                    <div 
+                        class="mt-2 g-recaptcha" 
+                        data-sitekey="{{ config['RECAPTCHA_PUBLIC_KEY'] }}"
+                        data-callback="enableSubmitButton"
+                    ></div>
+                    <button id="submit-btn" type="submit" value="Submit" class="btn border-black mt-4 mx-2" disabled>Submit</button>
+                </fieldset>
+            </form>
+        </div>
+        <div class="mt-4">
+            <a href="/decks"
+            class="p-2 hover:bg-slate-200 rounded-full"
+            >Already have an account?</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function enableSubmitButton() {
+        document.getElementById("submit-btn").disabled = false;
+    }
+</script>
+{% endblock %}

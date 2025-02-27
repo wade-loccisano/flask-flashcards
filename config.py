@@ -6,7 +6,7 @@ load_dotenv()
 
 class app_config(object):
     SECRET_KEY = os.getenv("SECRET_KEY")
-    DEBUG = True
+    DEBUG = False
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     TEMPLATES_AUTO_RELOAD = True

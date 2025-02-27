@@ -29,7 +29,6 @@ def create_app():
 
     @login_manager.user_loader
     def load_user(user_id):
-        # Load user from database based on user_id
         return User.query.get(user_id)
 
     api.add_resource(DecksApiEndpoint, "/api/DecksApiEndpoint")

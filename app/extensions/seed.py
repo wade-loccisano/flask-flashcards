@@ -16,7 +16,7 @@ def seed_database(user_id):
     # katakana_deck = Deck(name="Katakana Deck", cards=[])
     mixed_deck = Deck(name="Kana", user_id=user_id, cards=[])
 
-    elements_deck = Deck(name="Periodic Table of Elements", user_id=user_id, cards=[])
+    elements_deck = Deck(name="Periodic Table", user_id=user_id, cards=[])
 
     # db.session.add_all([hiragana_deck, katakana_deck, mixed_deck, elements_deck])
     db.session.add_all([mixed_deck, elements_deck])

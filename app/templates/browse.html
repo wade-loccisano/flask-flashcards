@@ -23,10 +23,10 @@
                         </select>
                 </div>
                 <div class="h-48 overflow-y-scroll w-full">
-                    <table id="browse-table" class="table-auto w-full border-collapse">
+                    <table id="browse-table" class="table-auto w-full border-collapse table-fixed">
                         <thead>
                             <tr>
-                                <th class="w-1/6">Id</th>
+                                <th class="w-1/6 pl-2">Id</th>
                                 <th class="w-1/4">Front</th>
                                 <th class="w-1/4">Back</th>
                                 <th class="w-1/6">Deck Name</th>
@@ -37,17 +37,17 @@
                             {% for card, deck_name in cards %}
                                 <tr 
                                     id="card-row-{{ card.id }}"
-                                    class="card-row"
+                                    class="card-row cursor-pointer hover:bg-gray-200 transition duration-200 ease-in-out"
                                     onclick="selectCard(this)"
                                     data-front="{{ card.front }}"
                                     data-back="{{ card.back }}"
                                     data-deck-id="{{ card.deck_id }}"
                                     data-card-id="{{ card.id }}"
                                 >
-                                    <td>{{ card.id }}</td>
-                                    <td>{{ card.front }}</td>
-                                    <td>{{ card.back }}</td>
-                                    <td class="overflow-auto text-wrap">{{ deck_name }}</td>
+                                    <td class="pl-2">{{ card.id }}</td>
+                                    <td class="truncate whitespace-nowrap overflow-hidden">{{ card.front }}</td>
+                                    <td class="truncate whitespace-nowrap overflow-hidden">{{ card.back }}</td>
+                                    <td class="truncate whitespace-nowrap overflow-hidden">{{ deck_name }}</td>
                                     <td class="text-right pr-2">
                                         <button 
                                             type="button"
@@ -103,10 +103,10 @@
                 <h5 class="modal-title" id="deleteCardModalLabel">Delete Card</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="deleteForm" class="row g-3" method="POST">
+            <form id="deleteForm" method="POST">
                 <div class="modal-body">
-                    <h2 id="message"></h2>
-                    <h4>This will delete this card!</h4>
+                    <h2 class="text-2xl">This will delete this card!</h2>
+                    <!-- <div id="message" class="font-bold"></div> -->
                     <input type="hidden" name="_method" value="DELETE">
                     <input type="hidden" name="deckId" id="deckIdInput">
                     <input type="hidden" name="cardId" id="cardIdInput">
@@ -130,6 +130,10 @@
         const button = event.relatedTarget;
         const deckId = button.getAttribute('data-deck-id');
         const cardId = button.getAttribute('data-card-id');
+
+        // const modalTitle = deleteModal.querySelector('#message');
+        // modalTitle.textContent = `${cardName}`;
+
         const deleteForm = deleteModal.querySelector('#deleteForm');
         deleteForm.querySelector('#deckIdInput').value = deckId;
         deleteForm.querySelector('#cardIdInput').value = cardId;

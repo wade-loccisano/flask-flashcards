@@ -1,13 +1,7 @@
-.card-row:hover {
-    background-color: gray;
-}
-
 .selected-line {
-    background-color: yellow !important;
-    color: black;
-    padding: 10px;
+    background-color: #9bbcdb !important;
 }
 
 .selected-line:hover {
-    background-color: green !important;
+    background-color: #538bc1 !important;
 }

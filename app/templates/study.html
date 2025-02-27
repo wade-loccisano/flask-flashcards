@@ -6,41 +6,43 @@
 
 {% block content %}
 <div class="h-full w-full">
-    <div class="flex flex-col border-b items-center min-w-full">
-        <div class="my-4">
-            <h1 class="text-2xl md:text-4xl">Studying Deck: {{ deck.name }}</h1>
-        </div>
-        <div class="mt-2 mb-4">
-            <a href="/decks" class="btn btn-secondary">
-                Back to Decks
-            </a>
-        </div>
-    </div>
-    <div class="flex flex-col items-center my-4">
-        <!-- <div id="front-or-back-indicator" class="pb-2"> -->
-        <!-- </div> -->
-        <div class="text-4xl flex flex-col items-center min-h-[55vh] max-h-[45vh] overflow-auto min-w-[60%]">
-            <div id="flashcard-front" class="whitespace-pre-wrap text-center">
+    <div class="mt-3 p-2 bg-[#f8f9fa] rounded-2xl shadow-lg">
+        <div class="flex flex-col border-b items-center min-w-full">
+            <div class="my-3">
+                <h1 class="text-2xl md:text-4xl">Studying: {{ deck.name }}</h1>
             </div>
-            <div id="flashcard-back" class="border-top whitespace-pre-wrap text-center pt-2">
-            </div>
+            <!-- <div class="mt-2 mb-4">
+                <a href="/decks" class="btn btn-secondary">
+                    Back to Decks
+                </a>
+            </div> -->
         </div>
-        <div class="mt-4">
-            <div id="reveal-button" class="">
-                <button class="btn btn-primary min-w-[250px]" onclick="showAnswer()">
-                    Reveal Answer
-                </button>
+        <div class="flex flex-col items-center m-4">
+            <!-- <div id="front-or-back-indicator" class="pb-2"> -->
+            <!-- </div> -->
+            <div class="text-4xl flex flex-col items-center min-h-[55vh] max-h-[45vh] overflow-auto min-w-[60%]">
+                <div id="flashcard-front" class="whitespace-pre-wrap text-center pb-2">
+                </div>
+                <div id="flashcard-back" class="border-t-2 border-gray-300 whitespace-pre-wrap text-center pt-2">
+                </div>
             </div>
-            <div id="next-card-button-group" class="hidden flex gap-5">
-                <button class="btn btn-info" onclick="randomCard()">
-                    Random
-                </button>
-                <button class="btn btn-secondary" onclick="nextCard()">
-                    Next
-                </button>
-                <button class="btn btn-danger" onclick="updateCard()">
-                    Repeat
-                </button>
+            <div class="mt-4">
+                <div id="reveal-button" class="">
+                    <button class="btn btn-primary min-w-[310px]" onclick="showAnswer()">
+                        Reveal Answer
+                    </button>
+                </div>
+                <div id="next-card-button-group" class="hidden flex gap-5">
+                    <button class="btn btn-info" onclick="randomCard()">
+                        Random
+                    </button>
+                    <button class="btn btn-secondary" onclick="nextCard()">
+                        Next
+                    </button>
+                    <button class="btn btn-danger" onclick="updateCard()">
+                        Repeat
+                    </button>
+                </div>
             </div>
         </div>
     </div>

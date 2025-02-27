@@ -12,9 +12,6 @@
                 <h1 class="text-4xl">Your Decks</h1>
             </div>
             <div class="mt-2 mb-4">
-                <!-- <a href="/decks" class="btn btn-secondary">
-                    Back to Decks
-                </a> -->
                 <button 
                     type="button"
                     class="btn btn-primary"
@@ -39,12 +36,6 @@
                         >
                             Study
                         </a>
-                        <!-- <a 
-                            href="{{ url_for('decks_blueprint.cards_blueprint.cards', deck_id=deck.id) }}"
-                            class="btn btn-info"
-                        >
-                            Edit
-                        </a> -->
                         <button 
                             type="button"
                             class="btn btn-danger"
@@ -71,11 +62,11 @@
                 <h5 class="modal-title" id="newDeckModalLabel">New Deck</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form class="row g-3" action="/decks" method="POST">
+            <form action="/decks" method="POST">
                 <div class="modal-body">
-                    <input type="text" class="form-control" name="name" placeholder="Deck name..." required>
+                    <input type="text" class="form-control" name="name" placeholder="Deck name..." required maxlength="50">
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer text-center">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Create Deck</button>
                 </div>
@@ -86,17 +77,19 @@
 
 <!-- Delete Deck Modal -->
 <div class="modal fade" id="deleteDeckModal" tabindex="-1" aria-labelledby="deleteDeckModalLabel" aria-hidden="true">
-    <!-- <div class="modal fade" id="deleteDeckModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteDeckModalLabel" aria-hidden="true"> -->
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="deleteDeckModalLabel">Delete Deck</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="deleteForm" class="row g-3" method="POST">
+            <form id="deleteForm" method="POST">
                 <div class="modal-body">
-                    <h2 id="message"></h2>
-                    <h4>This will delete all cards within this deck!</h4>
+                    <h2 class="text-2xl py-1">
+                        Do you really wish to delete? 
+                        <div id="message" class="font-bold"></div>
+                    </h2>
+                    <h4 class="text-xl">This will delete all cards within this deck!</h4>
                     <input type="hidden" name="_method" value="DELETE">
                 </div>
                 <div class="modal-footer">
@@ -123,19 +116,8 @@
         const modalTitle = deleteModal.querySelector('#message');
         const deleteForm = deleteModal.querySelector('#deleteForm');
         
-        modalTitle.textContent = `Really delete deck ${deckName}?`;
+        modalTitle.textContent = `${deckName}`;
         deleteForm.action = `/decks/${deckId}`;
     });
 </script>
-
-
-<!-- <div class="overlay hidden">
-    <div id="modal" class="modal-container">
-        <h2>Add a new deck</h2>
-        <div class="buttons">
-            <button id="btnNo" class="btn btn--no">No</button>
-            <button id="btnYes" class="btn btn--yes">Yes</button>
-        </div>
-    </div>
-</div> -->
 {% endblock %}

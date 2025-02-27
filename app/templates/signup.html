@@ -5,24 +5,22 @@
 {% endblock %}
 
 {% block content %}
-    <div class="flex flex-col items-center justify-center h-full">
-        <div class="mt-4 mb-4 text-2xl">
-            Username not found
-        </div>
-        <h1 class="text-4xl">Sign Up</h1>
-        <div class="mt-4 mb-16 text-4xl">
-            Flask Flashcards
-        </div>
+<div class="h-full flex flex-col items-center justify-center">
+    <div class="flex flex-col items-center justify-center bg-white rounded-2xl shadow-lg p-4">
+        <h1 class="text-5xl">Flashcards Lite</h1>
+        <h2 class="text-4xl my-3">New Profile</h1>
         <div class="">
             <form method="POST" action="{{ url_for('auth_blueprint.signup')}}">
                 <fieldset class="flex flex-col justify-center">
-                    <legend>New User Information</legend>
                     <input 
                         type="text" 
                         id="username" 
                         name="username" 
                         placeholder="Username" 
-                        required="required" 
+                        required="required"
+                        class="m-2 p-2 border rounded"
+                        minlength="4"
+                        maxlength="50"
                     >
                     <input 
                         type="password" 
@@ -30,10 +28,29 @@
                         name="password" 
                         placeholder="Password" 
                         required="required"
+                        class="m-2 p-2 border rounded"
+                        minlength="8"
                     >
-                    <button type="submit" value="Submit" class="btn btn--add">Submit</button>
+                    <div 
+                        class="mt-2 g-recaptcha" 
+                        data-sitekey="{{ config['RECAPTCHA_PUBLIC_KEY'] }}"
+                        data-callback="enableSubmitButton"
+                    ></div>
+                    <button id="submit-btn" type="submit" value="Submit" class="btn border-black mt-4 mx-2" disabled>Submit</button>
                 </fieldset>
             </form>
         </div>
+        <div class="mt-4">
+            <a href="/decks"
+            class="p-2 hover:bg-slate-200 rounded-full"
+            >Already have an account?</a>
+        </div>
     </div>
+</div>
+
+<script>
+    function enableSubmitButton() {
+        document.getElementById("submit-btn").disabled = false;
+    }
+</script>
 {% endblock %}
